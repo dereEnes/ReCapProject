@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface IProductDal
+    public interface ICarDal
     {
         Car GetById(int id);
         List<Car> GetAll();

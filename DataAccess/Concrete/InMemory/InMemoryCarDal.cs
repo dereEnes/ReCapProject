@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace DataAccess.Concrete.InMemory
 {
-    class InMemoryProductDal : IProductDal
+    public class InMemoryCarDal : ICarDal
     {
         List<Car> _ListOfCar;
-        public InMemoryProductDal()
+        public InMemoryCarDal()
         {
             _ListOfCar = new List<Car>() { 
                 new Car {  Id = 1, BrandId=1,ColorId=1,DailyPrice=1500,Description="Bmw x series",ModelYear=2020},
