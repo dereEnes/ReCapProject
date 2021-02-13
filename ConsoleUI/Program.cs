@@ -18,7 +18,7 @@ namespace ConsoleUI
             {
                 Console.WriteLine("Id={0} ColorId={1} BrandId={2} ModelYear={3} DailyPrice={4} Description={5}",car.Id,car.ColorId,car.BrandId,car.ModelYear,car.DailyPrice,car.Description);
             }
-
+            
             Car newCar = new Car() { BrandId=3,ColorId=5,Id=6,DailyPrice=250,Description="Toyoto",ModelYear=2015};
             carManager.Add(newCar);
             cars = carManager.GetAll();
