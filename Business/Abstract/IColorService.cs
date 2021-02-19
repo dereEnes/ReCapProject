@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    interface IColorService
+    public interface IColorService
     {
         IDataResult<List<Color>> GetAll();
         IDataResult<Color> GetByColorId(int colorId);
