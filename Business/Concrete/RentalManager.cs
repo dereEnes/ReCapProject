@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Business.Constants;
+using Core.CrossCuttingConcerns.Validation;
+using Business.ValidationRules.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -19,6 +21,8 @@ namespace Business.Concrete
         
         public IResult Add(Rental rental)
         {
+            ValidationTool.Validate(new RentalValidator(),rental);
+
             var lastEntry = _RentalDal.Get(r => r.CarId == rental.CarId && r.ReturnDate==null);
             if (lastEntry==null)
             {
