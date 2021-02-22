@@ -8,6 +8,7 @@ using System.Text;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofact.Validation;
 
 namespace Business.Concrete
 {
@@ -18,6 +19,7 @@ namespace Business.Concrete
         {
             _CustomerDal = customerDal;
         }
+        [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer customer)
         {
             ValidationTool.Validate(new CustomerValidator(), customer);

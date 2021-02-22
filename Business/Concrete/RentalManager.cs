@@ -8,6 +8,7 @@ using System.Text;
 using Business.Constants;
 using Core.CrossCuttingConcerns.Validation;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofact.Validation;
 
 namespace Business.Concrete
 {
@@ -18,7 +19,7 @@ namespace Business.Concrete
         {
             _RentalDal = rentalDal;
         }
-        
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
             ValidationTool.Validate(new RentalValidator(),rental);
