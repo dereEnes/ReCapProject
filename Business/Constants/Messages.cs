@@ -14,6 +14,7 @@ namespace Business.Constants
         public static string BrandUpdated = "Marka güncellendi";
         public static string BrandsListed = "Markalar listelendi";
         public static string BrandListed = "Marka listelendi";
+        public static string BrandNameAlreadyExist = "Bu isimde bir marka zaten var!";
         //Car Messages
         public static string CarAdded = "Araba başarılı bir şekilde eklendi.";
         public static string CarsListed = "Arabalar listelendi";
@@ -48,6 +49,10 @@ namespace Business.Constants
         public static string CustomerDeleted = "Müşteri silindi";
         public static string CustomerUpdated = "Müşteri güncellendi";
 
+        public static string ImagesAdded = "Resim Eklendi";
 
+        public static string FailAddedImageLimit = "Resim ekleme limitine ulaşıldı.";
+
+        
     }
 }

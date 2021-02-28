@@ -19,9 +19,10 @@ namespace ConsoleUI
             //   Add();  
             //User user = new User() { Email="selcuk@gmail.com",FirstName="kursat",LastName="eren",Id=3,Password="123456"};
             //userManager.Add(user);
+            var a = Guid.NewGuid();
+            Console.WriteLine(a);
 
 
-            
             Rental rent = new Rental() {CarId=2,CustomerId=2,Id=2, RentDate = DateTime.Now.Date };
            // Rental rent2 = new Rental() { CarId = 2, CustomerId = 3, Id = 2, RentDate =new DateTime(2021,02,15) };
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
