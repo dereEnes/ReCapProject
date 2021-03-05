@@ -16,5 +16,6 @@ namespace Business.Abstract
         IResult Delete(Car car);
         IResult Update(Car car);
         IDataResult<List<CarDetailsDto>> GetCarDetailsDtos();
+        IResult AddTransactionalTest(Car car);
     }
 }
