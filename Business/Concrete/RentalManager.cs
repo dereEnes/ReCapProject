@@ -9,6 +9,7 @@ using Business.Constants;
 using Core.CrossCuttingConcerns.Validation;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofact.Validation;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -49,6 +50,11 @@ namespace Business.Concrete
         public IDataResult<Rental> GetById(int rentalId)
         {
             return new SuccessDataResult<Rental>(_RentalDal.Get(r => r.Id == rentalId));
+        }
+
+        public IDataResult<List<RentalDetailsDto>> GetRentalDetailsDto()
+        {
+            return new SuccessDataResult<List<RentalDetailsDto>>(_RentalDal.GetRentalDetails());
         }
 
         public IResult Update(Rental rental)
