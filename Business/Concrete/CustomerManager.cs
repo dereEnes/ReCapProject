@@ -10,6 +10,7 @@ using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofact.Validation;
 using Business.BusinessAspects.Autofac;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -43,6 +44,11 @@ namespace Business.Concrete
         public IDataResult<Customer> GetById(int customerId)
         {
             return new SuccessDataResult<Customer>(_CustomerDal.Get(c=>c.UserId==customerId));
+        }
+
+        public IDataResult<List<CustomerDetailsDto>> getCustomerDetailsDto()
+        {
+            return new SuccessDataResult<List<CustomerDetailsDto>>(_CustomerDal.GetCustomerDetailsDto());
         }
 
         public IResult Update(Customer customer)

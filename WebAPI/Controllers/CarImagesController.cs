@@ -22,10 +22,34 @@ namespace WebAPI.Controllers
             _webHostEnvironment = webHostEnvironment;
             _carImageService = carImageService;
         }
+        public class FileUploadAPI
+        {
+
+        }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var result = _carImageService.GetAll();
+            foreach (var item in result.Data)
+            {
+                item.ImagePath = item.ImagePath.Replace('\\','/');
+            }
+            
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getbycarid")]
+        public IActionResult GetByCarId(int carId)
+        {
+            var result = _carImageService.GetImagesByCarId(carId);
+
+            foreach (var item in result.Data)
+            {
+                item.ImagePath = item.ImagePath.Replace("\\", "/");
+            }
             if (result.Success)
             {
                 return Ok(result);
@@ -43,23 +67,36 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public async Task<IActionResult> AddAsync([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
+        public IActionResult Add([FromForm(Name = ("CarImage"))] IFormFile objectFile, [FromForm] CarImage carImage)
         {
-            var path = Path.GetTempFileName();
-            if (file.Length > 0)
+            string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+            var newGuidPath = Guid.NewGuid().ToString() + Path.GetExtension(objectFile.FileName);
+
+
+            if (!Directory.Exists(path))
             {
-                using (var stream = new FileStream(path, FileMode.Create))
-                    await file.CopyToAsync(stream);
+                Directory.CreateDirectory(path);
             }
-
-            var carimage = new CarImage { CarId = carImage.CarId, ImagePath = path, Date = DateTime.Now };
-
-            var result = _carImageService.Add(carimage);
+            using (FileStream fileStream = System.IO.File.Create(path + newGuidPath))
+            {
+                objectFile.CopyTo(fileStream);
+                fileStream.Flush();
+            }
+            if (objectFile == null)
+            {
+                carImage.ImagePath = path + "default.png";
+            }
+            var result = _carImageService.Add(new CarImage
+            {
+                CarId = carImage.CarId,
+                Date = DateTime.Now,
+                ImagePath = newGuidPath
+            });
             if (result.Success)
             {
-                return Ok();
+                return Ok(result);
             }
-            return BadRequest();
+            return BadRequest(result);
         }
         [HttpPost("delete")]
         public IActionResult Delete(CarImage carImage)

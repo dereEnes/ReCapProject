@@ -3,6 +3,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Abstract
@@ -15,7 +16,7 @@ namespace Business.Abstract
         IResult Add(Car car);
         IResult Delete(Car car);
         IResult Update(Car car);
-        IDataResult<List<CarDetailsDto>> GetCarDetailsDtos();
+        IDataResult<List<CarDetailsDto>> GetCarDetailsDtos(Expression<Func<Car, bool>> filter = null);
         IResult AddTransactionalTest(Car car);
     }
 }

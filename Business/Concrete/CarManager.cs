@@ -14,6 +14,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -71,10 +72,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p=>p.ColorId==id));
         }
 
-        [CacheAspect]
-        public IDataResult<List<CarDetailsDto>> GetCarDetailsDtos()
+        
+        public IDataResult<List<CarDetailsDto>> GetCarDetailsDtos(Expression<Func<Car, bool>> filter = null)
         {
+            if (filter!=null)
+            {
+                return new SuccessDataResult<List<CarDetailsDto>>(_carDal.GetCarDetails(filter));
+            }
             return new SuccessDataResult<List<CarDetailsDto>>(_carDal.GetCarDetails());
+
         }
         [TransactionScopeAspect]
         public IResult AddTransactionalTest(Car car)
