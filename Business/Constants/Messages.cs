@@ -64,5 +64,13 @@ namespace Business.Constants
         public static string SuccessfulLogin = "Giriş Başarılı";
         public static string UserAlreadyExists = "Böyle bir kullanıcı zaten var";
         public static string AccessTokenCreated = "AccessToken Oluşturuldu";
+
+        public static string CustomerDidntFound = "Böyle bir müşteri yok";
+        internal static string carIsNotAvailable = "Bu araç şuan kiralanamaz";
+
+        public static string SuccessfulPayment = "Başarılı Ödeme";
+        public static string FailedError = "Ödeme Başarısız";
+
+        public static string CreditCardAdded = "Kredi kartı eklendi";
     }
 }

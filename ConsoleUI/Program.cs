@@ -25,9 +25,9 @@ namespace ConsoleUI
 
             Rental rent = new Rental() {CarId=2,CustomerId=2,Id=2, RentDate = DateTime.Now.Date };
            // Rental rent2 = new Rental() { CarId = 2, CustomerId = 3, Id = 2, RentDate =new DateTime(2021,02,15) };
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            var res1=rentalManager.Add(rent);
-            Console.WriteLine(res1.Message);
+            //RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            //var res1=rentalManager.Add(rent);
+            //Console.WriteLine(res1.Message);
          //   var res2 = rentalManager.Add(rent2);
             
             //Customer customer2 = new Customer() { Id = 2, UserId = 2, CompanyName = "Sahibinden" };

@@ -10,30 +10,62 @@ using Core.CrossCuttingConcerns.Validation;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofact.Validation;
 using Entities.DTOs;
+using Core.Utilities.Business;
+using Core.Aspects.Autofact.Transection;
 
 namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
+        private ICustomerDal _customerDal;
         private IRentalDal _RentalDal;
-        public RentalManager(IRentalDal rentalDal)
+        public RentalManager(IRentalDal rentalDal, ICustomerDal customerDal)
         {
             _RentalDal = rentalDal;
+            _customerDal = customerDal;
         }
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            ValidationTool.Validate(new RentalValidator(),rental);
 
-            var lastEntry = _RentalDal.Get(r => r.CarId == rental.CarId && r.ReturnDate==null);
-            if (lastEntry==null)
-            {
+
+            //IResult result = BusinessRules.Run(
+            //    CheckForCarIsAvailable(rental.CarId)
+            //    );
+
                 _RentalDal.Add(rental);
                 return new SuccessResult(Messages.RentAdded);
-                
-                
+
+         //   CheckForCustomerExist(rental.CustomerId),
+            
+        }
+        private IResult CheckForCarIsAvailable( int carId)
+        {
+            
+            if (_RentalDal.Get(r => r.CarId == carId && r.ReturnDate == null) != null){
+                return new ErrorResult(Messages.carIsNotAvailable);
             }
-            return new ErrorResult(Messages.RentFailed);
+            var lastEntry = _RentalDal.CheckForAvailable(r=>r.CarId==carId);
+            return new SuccessResult();
+
+            }
+        private IResult CheckForCustomerExist(int customerId)
+        {
+            var customer = _customerDal.Get(c => c.UserId == customerId);
+            if (customer == null)
+            {
+                return new ErrorResult(Messages.CustomerDidntFound);
+            }
+            return new SuccessResult();
+        }
+
+        public IResult CheckForRent(int carId)
+        {
+            IResult result = BusinessRules.Run(
+                CheckForCarIsAvailable(carId)
+                );
+            return result;
+
         }
 
         public IResult Delete(Rental rental)
@@ -41,6 +73,7 @@ namespace Business.Concrete
             _RentalDal.Delete(rental);
             return new SuccessResult(Messages.RentDeleted);
         }
+
 
         public IDataResult<List<Rental>> GetAll()
         {
@@ -61,6 +94,18 @@ namespace Business.Concrete
         {
             _RentalDal.Update(rental);
             return new SuccessResult(Messages.RentUpdated);
+        }
+
+        [TransactionScopeAspect]
+        public IResult TransSectionRent(Rental rental)
+        {
+            _RentalDal.Add(rental);
+            return new SuccessResult(Messages.RentAdded);
+        }
+
+        public IResult Payment(Payment payment)
+        {
+            return new SuccessResult(Messages.SuccessfulPayment);
         }
     }
 }

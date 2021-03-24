@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -17,6 +18,27 @@ namespace WebAPI.Controllers
         public CarsController(ICarService carService)
         {
             _carService = carService;
+        }
+        [HttpGet("getbycarid")]
+        public IActionResult Get(int id)
+        {
+            var result = _carService.Get(c=> c.Id==id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycolorandbrandid")]
+        public IActionResult GetCarDetailsDtos(int brandId,int colorId)
+        {
+            var result = _carService.GetCarDetailsDtos(p => p.BrandId== brandId && p.ColorId==colorId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
         [HttpGet("getall")]
         public IActionResult GetAll()

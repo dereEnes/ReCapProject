@@ -87,5 +87,10 @@ namespace Business.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public IDataResult<Car> Get(Expression<Func<Car, bool>> filter = null)
+        {
+            return new SuccessDataResult<Car>(_carDal.Get(filter));
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(b => b.Name).NotEmpty();
             RuleFor(b => b.Name).MinimumLength(2).WithMessage("2 karakterden uzun olmalı");
-            RuleFor(b => b.Name).Must(StartWithA).WithMessage("A harfi ile başlamalı");
+            
 
         }
 
