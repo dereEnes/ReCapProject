@@ -76,14 +76,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IResult CheckForRent(int carId)
-        {
-            IResult result = BusinessRules.Run(
-                CheckForCarIsAvailable(carId)
-                );
-            return result;
-
-        }
+        
 
         public IResult Delete(Rental rental)
         {
@@ -123,6 +116,11 @@ namespace Business.Concrete
         public IResult Payment(Payment payment)
         {
             return new SuccessResult(Messages.SuccessfulPayment);
+        }
+
+        public IResult CheckForRent(int carId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
