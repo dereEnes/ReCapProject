@@ -15,18 +15,18 @@ namespace WebAPI.Controllers
     public class PaymentsController : ControllerBase
     {
         private IPaymentService _paymentService;
-        private ICreditCardService _creditCardService;
         
-        public PaymentsController(IPaymentService paymentService, ICreditCardService creditCardService)
+        
+        public PaymentsController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
-            _creditCardService = creditCardService;
+            
         }
 
         [HttpPost("add")]
-        public IActionResult AddPayment(CreditCard payment)
+        public IActionResult AddPayment(Collection collection)
         {
-            var result = _creditCardService.Add(payment);
+            var result = _paymentService.Add(collection);
             if (result.Success)
             {
                 return Ok(result);
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _creditCardService.GetAll();
+            var result = _paymentService.GetAll();
             if (result.Success)
             {
                 return Ok(result);

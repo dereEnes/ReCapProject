@@ -10,10 +10,10 @@ namespace Business.Abstract
 {
     public interface IPaymentService
     {
-         IResult Add(CreditCard payment);
+         IResult Add(Collection collection);
 
 
-        IResult Delete(CreditCard payment);
+        IResult Delete(Collection collection);
         
 
          IDataResult<Payment> Get(Expression<Func<Payment, bool>> filter);
@@ -22,7 +22,7 @@ namespace Business.Abstract
         IDataResult<List<Payment>> GetAll(Expression<Func<Payment, bool>> filter = null);
 
 
-        IResult Update(CreditCard payment);
+        IResult Update(Collection collection);
         
     }
 }

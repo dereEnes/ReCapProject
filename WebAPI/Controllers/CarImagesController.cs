@@ -48,6 +48,7 @@ namespace WebAPI.Controllers
 
             foreach (var item in result.Data)
             {
+
                 item.ImagePath = item.ImagePath.Replace("\\", "/");
             }
             if (result.Success)
@@ -84,7 +85,7 @@ namespace WebAPI.Controllers
             }
             if (objectFile == null)
             {
-                carImage.ImagePath = path + "default.png";
+                carImage.ImagePath =  "default.png";
             }
             var result = _carImageService.Add(new CarImage
             {

@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,6 +27,28 @@ namespace WebAPI.Controllers
             if (result.Success)
             {
                 return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getbyemail")]
+        public IActionResult GetByEmail(string email)
+        {
+            var result = _userService.GetByMail(email);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getfullname")]
+        public IActionResult GetFullName(string email)
+        {
+            var result = _userService.GetByMail(email);
+            
+            if (result.Success)
+            {
+                UserFullName userFullName = new UserFullName { FirstName = result.Data.FirstName, LastName = result.Data.LastName };
+                return Ok(userFullName);
             }
             return BadRequest(result);
         }

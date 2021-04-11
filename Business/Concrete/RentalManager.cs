@@ -29,9 +29,14 @@ namespace Business.Concrete
         {
 
 
-            //IResult result = BusinessRules.Run(
-            //    CheckForCarIsAvailable(rental.CarId)
-            //    );
+            IResult result = BusinessRules.Run(CheckForDate(rental),
+                CheckForCarIsAvailable(rental)
+                );
+
+            if (!result.Success)
+            {
+                return result;
+            }
 
                 _RentalDal.Add(rental);
                 return new SuccessResult(Messages.RentAdded);
@@ -39,16 +44,28 @@ namespace Business.Concrete
          //   CheckForCustomerExist(rental.CustomerId),
             
         }
-        private IResult CheckForCarIsAvailable( int carId)
+        private IResult CheckForDate(Rental rental)
         {
-            
-            if (_RentalDal.Get(r => r.CarId == carId && r.ReturnDate == null) != null){
+            if (rental.ReturnDate<rental.RentDate) {
+                return new ErrorResult(Messages.returnDateMustBiggerThenRentDate);
+            }
+            return new SuccessResult();
+        }
+
+
+        private IResult CheckForCarIsAvailable(Rental rental)
+        {
+            var result = _RentalDal.GetAll(r => r.CarId == rental.CarId
+            && ((rental.RentDate <= r.RentDate 
+            && rental.ReturnDate >= r.RentDate) || rental.RentDate <= r.ReturnDate && rental.ReturnDate >= r.ReturnDate));
+
+            if (result.Count != 0)
+            {
                 return new ErrorResult(Messages.carIsNotAvailable);
             }
-            var lastEntry = _RentalDal.CheckForAvailable(r=>r.CarId==carId);
             return new SuccessResult();
 
-            }
+        }
         private IResult CheckForCustomerExist(int customerId)
         {
             var customer = _customerDal.Get(c => c.UserId == customerId);

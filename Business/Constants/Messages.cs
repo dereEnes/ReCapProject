@@ -66,7 +66,8 @@ namespace Business.Constants
         public static string AccessTokenCreated = "AccessToken Oluşturuldu";
 
         public static string CustomerDidntFound = "Böyle bir müşteri yok";
-        internal static string carIsNotAvailable = "Bu araç şuan kiralanamaz";
+        public static string carIsNotAvailable = "Bu araç bu tarihler arası kiralanamaz";
+        public static string returnDateMustBiggerThenRentDate = "Araç teslim tarihi araç kiralama tarihinden daha büyük olmalı";
 
         public static string SuccessfulPayment = "Başarılı Ödeme";
         public static string FailedError = "Ödeme Başarısız";

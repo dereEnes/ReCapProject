@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Adapter.Findex;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofact.Transection;
@@ -16,24 +17,35 @@ namespace Business.Concrete
     class PaymentManager : IPaymentService
     {
         private IPaymentDal _paymentDal;
-        private IRentalDal _rentalDal;
+        private IFindexService _findexService;
         private ICreditCardService _creditCardService;
-        public PaymentManager(IPaymentDal paymentDal)
+        public PaymentManager(IPaymentDal paymentDal, IFindexService findexService)
         {
             _paymentDal = paymentDal;
+            _findexService = findexService;
         }
 
         //[TransactionScopeAspect]
-        public IResult Add(CreditCard payment)
+        public IResult Add(Collection collection)
         {
-            _creditCardService.Add(payment);
+            CreditCard creditCard = new CreditCard
+            {
+                CardNo = collection.CardNo,
+                CvCode = collection.CvCode,
+                ExpityMonth = collection.ExpityMonth,
+                ExpityYear = collection.ExpityYear
+                
+            };
+            _creditCardService.Add(creditCard);
 
-            // _rentalDal.Add();
+            //Payment payment = new Payment { }
+            //_paymentDal.Add();
+            //// _rentalDal.Add();
             return new SuccessResult(Messages.SuccessfulPayment);
 
         }
 
-        public IResult Delete(CreditCard payment)
+        public IResult Delete(Collection creditCard)
         {
             throw new NotImplementedException();
         }
@@ -48,7 +60,7 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IResult Update(CreditCard payment)
+        public IResult Update(Collection creditCard)
         {
             throw new NotImplementedException();
         }

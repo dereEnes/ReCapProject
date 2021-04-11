@@ -1,17 +1,18 @@
-﻿using Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Entities.Concrete
 {
-    public class CreditCard:IEntity
+    public class Collection
     {
         public int Id { get; set; }
+        public string FullName { get; set; }
         public string CardNo { get; set; }
-        public string nameOnCard { get; set; }
+        public int CvCode { get; set; }
         public int ExpityMonth { get; set; }
         public int ExpityYear { get; set; }
-        public int CvCode { get; set; }
+        public int Amount { get; set; }
+        public int CustomerId { get; set; }
     }
 }
