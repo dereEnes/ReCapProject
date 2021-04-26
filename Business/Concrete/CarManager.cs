@@ -34,6 +34,7 @@ namespace Business.Concrete
         public IResult Add(Car car)
         {
             
+
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
