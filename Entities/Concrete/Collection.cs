@@ -13,6 +13,6 @@ namespace Entities.Concrete
         public int ExpityMonth { get; set; }
         public int ExpityYear { get; set; }
         public int Amount { get; set; }
-        public int CustomerId { get; set; }
+        public string CustomerEmail { get; set; }
     }
 }

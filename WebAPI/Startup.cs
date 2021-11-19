@@ -40,6 +40,7 @@ namespace WebAPI
             services.AddControllers();
 
             services.AddCors();
+            services.AddSwaggerGen();
             /*
             services.AddSingleton<IBrandService, BrandManager>();
             services.AddSingleton<IBrandDal, EfBrandDal>();*/
@@ -84,6 +85,7 @@ namespace WebAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseSwagger();
 
             app.UseEndpoints(endpoints =>
             {
