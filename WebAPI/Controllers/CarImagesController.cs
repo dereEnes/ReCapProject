@@ -68,7 +68,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add([FromForm(Name = ("CarImage"))] IFormFile objectFile, [FromForm] CarImage carImage)
+        public IActionResult Add([FromForm(Name = ("CarImage"))] IFormFile objectFile, [FromForm] int id)
         {
             string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
             var newGuidPath = Guid.NewGuid().ToString() + Path.GetExtension(objectFile.FileName);
@@ -85,11 +85,11 @@ namespace WebAPI.Controllers
             }
             if (objectFile == null)
             {
-                carImage.ImagePath =  "default.png";
+                //carImage.ImagePath =  "default.png";
             }
             var result = _carImageService.Add(new CarImage
             {
-                CarId = carImage.CarId,
+                CarId = id,
                 Date = DateTime.Now,
                 ImagePath = newGuidPath
             });

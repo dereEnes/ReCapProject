@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
+using AutoMapper;
 using Business.Abstract;
 using Business.Adapter.Findex;
 using Business.Concrete;
+using Business.Mapper.AutoMapper;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using Core.Utilities.Security.JWT;
@@ -50,7 +52,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfCreditCardDal>().As<ICreditCardDal>().SingleInstance();
 
             builder.RegisterType<FindexManager>().As<IFindexService>().SingleInstance();
-
+           // builder.RegisterType<BrandProfile>().As<IMapper>().SingleInstance();
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

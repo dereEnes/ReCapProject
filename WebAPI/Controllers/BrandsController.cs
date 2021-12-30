@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
+using Entities.Models;
 
 namespace WebAPI.Controllers
 {
@@ -48,19 +49,24 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpPost("delete")]
-        public IActionResult Delete(Brand brand)
+        [HttpDelete("delete")]
+        public IActionResult Delete(int id)
         {
-            var result = _brandService.Delete(brand);
+            if(id <= 0)
+            {
+                return BadRequest("Input must be greater than 0");
+            }
+            var result = _brandService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpPost("update")]
-        public IActionResult Update(Brand brand)
+        [HttpPut("update")]
+        public IActionResult Update(UpdateBrandModel brand)
         {
+            
             var result = _brandService.Update(brand);
             if (result.Success)
             {

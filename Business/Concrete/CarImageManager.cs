@@ -27,13 +27,13 @@ namespace Business.Concrete
             IResult result = BusinessRules.Run(
                 CheckIfImageLimit(carImage.CarId)
                 );
-            if (result != null)
+            if (!result.Success)
             {
                 return result;
             }
             var addedCarImage = CreatedFile(carImage).Data;
             _carImageDal.Add(carImage);
-            return new SuccessResult();
+            return new SuccessResult("Resim Başarıyla eklendi.");
         }
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Delete(CarImage carImage)

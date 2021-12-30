@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofact.Validation;
@@ -7,6 +8,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Models;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -18,10 +20,12 @@ namespace Business.Concrete
     public class BrandManager : IBrandService
     {
         private IBrandDal _BrandDal;
+        private readonly IMapper _mapper;
 
-        public BrandManager(IBrandDal brandDal)
+        public BrandManager(IBrandDal brandDal, IMapper mapper)
         {
             _BrandDal = brandDal;
+            _mapper = mapper;
         }
 
         [ValidationAspect(typeof(BrandValidator))]
@@ -36,15 +40,17 @@ namespace Business.Concrete
             _BrandDal.Add(brand);
             return new SuccessResult(Messages.BrandAdded);
         }
-
-        public IResult Delete(Brand brand)
+        
+        public IResult Delete(int id)
         {
-            _BrandDal.Delete(brand);
+            _BrandDal.Delete(GetByBrandId(id).Data);
             return new SuccessResult(Messages.BrandDeleted);
         }
-        public IResult Update(Brand brand)
+        [ValidationAspect(typeof(UpdateBrandValidator))]
+        public IResult Update(UpdateBrandModel brand)
         {
-            _BrandDal.Update(brand);
+            var mappedBrand = _mapper.Map<Brand>(brand);
+            _BrandDal.Update(mappedBrand);
             return new SuccessResult(Messages.BrandUpdated);
         }
 

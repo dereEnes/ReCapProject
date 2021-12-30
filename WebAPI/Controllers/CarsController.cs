@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Result;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -121,7 +122,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpPost("delete")]
+       /* [HttpPost("delete")]
         public IActionResult Delete(Car car)
         {
             var result = _carService.Delete(car);
@@ -130,6 +131,23 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }*/
+       // [HttpDelete("delete/{id}")]
+       /*[HttpGet("delete")]
+        public IActionResult Delete(int id)
+        {
+            var result = _carService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+          
+        }*/
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCar(int id)
+        {
+            return Ok(new SuccessResult());
         }
         [HttpPost("update")]
         public IActionResult Update(Car car)

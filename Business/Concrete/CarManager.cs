@@ -38,7 +38,7 @@ namespace Business.Concrete
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
-
+        /*
         //[SecuredOperation("admin,car.delete")]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
@@ -46,7 +46,7 @@ namespace Business.Concrete
             _carDal.Delete(car);
             return new SuccessResult();
         }
-
+        */
         //[SecuredOperation("admin,car.update")]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
@@ -92,6 +92,22 @@ namespace Business.Concrete
         public IDataResult<Car> Get(Expression<Func<Car, bool>> filter = null)
         {
             return new SuccessDataResult<Car>(_carDal.Get(filter));
+        }
+
+        public IResult Delete(int id)
+        {
+            var result = Get(x => x.Id == id);
+            if(result.Success)
+            {
+                _carDal.Delete(result.Data);
+                return new SuccessResult();
+            }
+            else
+            {
+                return new ErrorResult();
+            }
+            
+
         }
     }
 }

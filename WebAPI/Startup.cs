@@ -18,10 +18,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Business.Mapper.AutoMapper;
 
 namespace WebAPI
 {
@@ -40,7 +43,11 @@ namespace WebAPI
             services.AddControllers();
 
             services.AddCors();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+            services.AddAutoMapper(typeof(BrandProfile));//dependency injection for Automapper
             /*
             services.AddSingleton<IBrandService, BrandManager>();
             services.AddSingleton<IBrandDal, EfBrandDal>();*/
@@ -86,7 +93,10 @@ namespace WebAPI
 
             app.UseAuthorization();
             app.UseSwagger();
-
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
