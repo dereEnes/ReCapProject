@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Entities.Concrete;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +15,8 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ColorsController : ControllerBase
     {
-        IColorService _colorService;
+        private readonly IColorService _colorService;
+
         public ColorsController(IColorService colorService)
         {
             _colorService = colorService;
@@ -48,20 +51,25 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpPost("delete")]
-        public IActionResult Delete(Color color)
+        [HttpDelete("delete")]
+        public IActionResult Delete(int id)
         {
-            var result = _colorService.Delete(color);
+            if (id < 1)
+            {
+                return BadRequest("id must be greater than 0");
+            }
+            var result = _colorService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpPost("update")]
-        public IActionResult Update(Color color)
+        [HttpPut("update")]
+        public IActionResult Update(UpdateColorModel model)
         {
-            var result = _colorService.Update(color);
+            
+            var result = _colorService.Update(model);
             if (result.Success)
             {
                 return Ok(result);

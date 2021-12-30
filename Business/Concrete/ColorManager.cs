@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofact.Validation;
@@ -6,6 +7,7 @@ using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,10 +16,13 @@ namespace Business.Concrete
 {
     public class ColorManager : IColorService
     {
-        private IColorDal _ColorDal;
-        public ColorManager(IColorDal colorDal)
+        private readonly IColorDal _ColorDal;
+
+        private readonly IMapper _mapper;
+        public ColorManager(IColorDal colorDal,IMapper mapper)
         {
             _ColorDal = colorDal;
+            _mapper = mapper;
         }
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Add(Color color)
@@ -27,14 +32,15 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ColorAdded);
         }
 
-        public IResult Delete(Color color)
+        public IResult Delete(int id)
         {
-            _ColorDal.Delete(color);
+            _ColorDal.Delete(GetByColorId(id).Data);
             return new SuccessResult(Messages.ColorDeleted);
         }
-        public IResult Update(Color color)
+        public IResult Update(UpdateColorModel model)
         {
-            _ColorDal.Update(color);
+            var mappedColor = _mapper.Map<Color>(model);
+            _ColorDal.Update(mappedColor);
             return new SuccessResult(Messages.ColorUpdated);
         }
 
