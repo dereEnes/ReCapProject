@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
             string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
             var newGuidPath = Guid.NewGuid().ToString() + Path.GetExtension(objectFile.FileName);
 
-
+            
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

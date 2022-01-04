@@ -3,6 +3,7 @@ using Core.Entities;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,14 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, ReCapContext>, ICarDal
     {
-        
+        public void Add(AddCarModel model)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+                context.Add(model);
+                context.SaveChanges();
+            }
+        }
 
         public List<CarDetailsDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {

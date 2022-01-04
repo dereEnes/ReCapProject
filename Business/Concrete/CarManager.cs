@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
@@ -12,6 +13,7 @@ using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -21,21 +23,22 @@ namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        private ICarDal _carDal;
+        private readonly ICarDal _carDal;
+        private readonly IMapper _mapper;
 
-        public CarManager(ICarDal productDal)
+        public CarManager(ICarDal productDal, IMapper mapper)
         {
             _carDal = productDal;
+            _mapper = mapper;
         }
         [PerformanceAspect(5)]
         [CacheRemoveAspect("ICarService.Get")]//içinde bu olanları kaldırır
         //[SecuredOperation("admin,car.add")]
         [ValidationAspect(typeof(CarValidator))]
-        public IResult Add(Car car)
+        public IResult Add(AddCarModel model)
         {
-            
-
-            _carDal.Add(car);
+           
+            _carDal.Add(model);
             return new SuccessResult(Messages.CarAdded);
         }
         /*

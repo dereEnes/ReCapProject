@@ -1,6 +1,7 @@
 ﻿using Core.Utilities.Result;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -14,7 +15,7 @@ namespace Business.Abstract
         IDataResult<Car> Get(Expression<Func<Car, bool>> filter = null);
         IDataResult<List<Car>> GetCarsByBrandId(int id);
         IDataResult<List<Car>> GetCarsByColorId(int id);
-        IResult Add(Car car);
+        IResult Add(AddCarModel model);
        // IResult Delete(Car car);
         IResult Delete(int id);
         IResult Update(Car car);

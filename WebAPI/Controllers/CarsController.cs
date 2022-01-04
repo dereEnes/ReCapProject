@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Utilities.Result;
 using Entities.Concrete;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -112,9 +113,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add(Car car)
+        public IActionResult Add(AddCarModel model)
         {
-            var result = _carService.Add(car);
+            var result = _carService.Add(model);
             if (result.Success)
             {
                 return Ok(result);
@@ -144,7 +145,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
           
         }*/
-        [HttpDelete("{id}")]
+        [HttpDelete("delete")]
         public IActionResult DeleteCar(int id)
         {
             return Ok(new SuccessResult());
