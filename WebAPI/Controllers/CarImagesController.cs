@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,10 +69,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add([FromForm(Name = ("CarImage"))] IFormFile objectFile, [FromForm] int id)
+        public IActionResult Add([FromForm] AddCarImageModel model)
         {
             string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
-            var newGuidPath = Guid.NewGuid().ToString() + Path.GetExtension(objectFile.FileName);
+            var newGuidPath = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
 
             
             if (!Directory.Exists(path))
@@ -80,16 +81,16 @@ namespace WebAPI.Controllers
             }
             using (FileStream fileStream = System.IO.File.Create(path + newGuidPath))
             {
-                objectFile.CopyTo(fileStream);
+                model.ImageFile.CopyTo(fileStream);
                 fileStream.Flush();
             }
-            if (objectFile == null)
+            if (model.ImageFile == null)
             {
                 //carImage.ImagePath =  "default.png";
             }
             var result = _carImageService.Add(new CarImage
             {
-                CarId = id,
+                CarId = model.CarId,
                 Date = DateTime.Now,
                 ImagePath = newGuidPath
             });
